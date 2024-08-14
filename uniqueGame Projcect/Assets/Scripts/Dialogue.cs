@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class Dialogue : MonoBehaviour
 {
-    public TextMeshProUGUI textComponent;
+    public Text textComponent;
     public string[] lines;
     public float textSpeeds;
 
