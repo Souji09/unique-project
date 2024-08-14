@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class DataManager : MonoBehaviour
 {
     private DataGame gamedata;
+    private List<IDataPersistence> dataPersistenceObject;
    public static DataManager instance {  get; private set; }
 
     private void Awake()
@@ -17,6 +19,7 @@ public class DataManager : MonoBehaviour
     }
     private void Start()
     {
+        this.dataPersistenceObject = FindAllDataPersistenceObjects();
         loadgame();
     }
     public void newgame()
@@ -30,13 +33,27 @@ public class DataManager : MonoBehaviour
             Debug.Log("Khong tim thay du lieu");
             newgame();
         }
+        foreach(IDataPersistence dataPersistenceObj  in dataPersistenceObject)
+        {
+            dataPersistenceObj.LoadData(gamedata);
+        }
     }
     public void savegame()
     {
-
+        foreach(IDataPersistence dataPersistenceObj in dataPersistenceObject)
+        {
+            dataPersistenceObj.SaveData(ref gamedata);
+        }
     }
     public void OnApplicationQuit()
     {
         savegame();
+    }
+    private List<IDataPersistence> FindAllDataPersistenceObjects()
+    {
+        IEnumerable<IDataPersistence> dataPersistenceObject = FindObjectsOfType<MonoBehaviour>()
+            .OfType<IDataPersistence>();
+
+        return new List<IDataPersistence>(dataPersistenceObject);
     }
 }
