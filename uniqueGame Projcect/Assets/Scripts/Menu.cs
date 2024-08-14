@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class Menu : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public void OnNewGame()
     {
-        
+        DataManager.instance.newgame();
     }
-
-    // Update is called once per frame
-    void Update()
+    public void OnLoadGame()
     {
-        
+        DataManager.instance.loadgame();
+    }
+    public void OnSaveGame()
+    {
+        DataManager.instance.savegame();
     }
 }
