@@ -7,7 +7,7 @@ public class PlayerMovement : MonoBehaviour
     public float speed;
     public Rigidbody2D rb;
     private Vector2 Movement;
-    new Vector2 NormalizedSpeed;
+    Vector2 NormalizedSpeed;
 
     void Start()
     {
