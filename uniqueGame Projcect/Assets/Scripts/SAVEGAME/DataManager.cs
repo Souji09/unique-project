@@ -5,8 +5,14 @@ using System.Linq;
 
 public class DataManager : MonoBehaviour
 {
+    [Header("File Storage Config")]
+    [SerializeField] private string fileName;
+
     private DataGame gamedata;
+
     private List<IDataPersistence> dataPersistenceObject;
+
+    private FileDataHanler dataHanler;
    public static DataManager instance {  get; private set; }
 
     private void Awake()
@@ -19,6 +25,7 @@ public class DataManager : MonoBehaviour
     }
     private void Start()
     {
+        this.dataHanler = new FileDataHanler(Application.persistentDataPath, fileName);
         this.dataPersistenceObject = FindAllDataPersistenceObjects();
         loadgame();
     }
@@ -28,6 +35,7 @@ public class DataManager : MonoBehaviour
     }
     public void loadgame()
     {
+        this.gamedata = dataHanler.Load();
         if(this.gamedata == null)
         {
             Debug.Log("Khong tim thay du lieu");
@@ -44,6 +52,7 @@ public class DataManager : MonoBehaviour
         {
             dataPersistenceObj.SaveData(ref gamedata);
         }
+        dataHanler.Save(gamedata);
     }
     public void OnApplicationQuit()
     {
