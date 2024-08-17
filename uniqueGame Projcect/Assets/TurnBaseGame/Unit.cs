@@ -14,7 +14,7 @@ public class Unit: MonoBehaviour
     public int Fait;
     public bool takeDame(int damg)
     {
-        int dameDeal = Defend - damg;
+        int dameDeal =  damg - Defend;
         if(dameDeal <= 1)
         {
             dameDeal = 1;

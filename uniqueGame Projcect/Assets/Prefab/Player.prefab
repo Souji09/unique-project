@@ -50,3 +50,4 @@ MonoBehaviour:
   currentHP: 100
   Dame: 25
   Defend: 5
+  Fait: 13

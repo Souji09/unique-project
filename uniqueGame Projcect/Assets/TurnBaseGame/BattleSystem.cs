@@ -60,7 +60,7 @@ public class BattleSystem : MonoBehaviour
         State = BattleState.waiting;
         switchTurnButton();
         bool isDead = EnemyUnit.takeDame(PlayerUnit.Dame);
-        EnemyHUD.SetHP(EnemyUnit.currentHP);
+        StartCoroutine(EnemyHUD.SetHP(EnemyUnit.currentHP));
         switchTurnButton();
         yield return new WaitForSeconds(1f);
         if(isDead)
@@ -78,11 +78,24 @@ public class BattleSystem : MonoBehaviour
     }
     public IEnumerator EnemyTurn()
     {
-       
-        DialogText.text = EnemyUnit.Unitname + " Attacks";       
-        bool isDead = PlayerUnit.takeDame(EnemyUnit.Dame);
-        PlayerHUD.SetHP(PlayerUnit.currentHP);
+        int rate;
+        bool isDead;
+        rate = Random.Range(0,5);
+        if(rate <=3)
+        {
+            DialogText.text = EnemyUnit.Unitname + " Attacks";
+            isDead = PlayerUnit.takeDame(EnemyUnit.Dame);
+            StartCoroutine(PlayerHUD.SetHP(PlayerUnit.currentHP));
+        }
+        else
+        {
+            DialogText.text = EnemyUnit.Unitname + " Are Healing";
+            EnemyUnit.heal(EnemyUnit.Fait);
+            StartCoroutine(EnemyHUD.SetHP(EnemyUnit.currentHP));  
+            isDead = false;
+        }   
         yield return new WaitForSeconds(1f);
+
         if(isDead)
         {
             State = BattleState.Lost;
@@ -97,7 +110,7 @@ public class BattleSystem : MonoBehaviour
     public IEnumerator Playerheal()
     {
         PlayerUnit.heal(PlayerUnit.Fait);
-        PlayerHUD.SetHP(PlayerUnit.currentHP);
+        StartCoroutine(PlayerHUD.SetHP(PlayerUnit.currentHP));
         DialogText.text = "You feal better now";
         yield return new WaitForSeconds(1f);        
             State = BattleState.EnemyTurn;

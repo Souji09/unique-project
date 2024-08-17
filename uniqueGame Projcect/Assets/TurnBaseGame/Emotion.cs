@@ -47,21 +47,23 @@ public class Emotion : MonoBehaviour
     }
     public void EmotionEffect()
     {
-        switch (EmotionStatus)
+        if (EmotionStatus <= 40)
         {
-            case 40:
-                Emotionbar.fillRect.GetComponent<Image>().color = Color.gray;
-                break;
-            case 60:
-                Emotionbar.fillRect.GetComponent<Image>().color = Color.blue;
-                break;
-            case 80:
-                Emotionbar.fillRect.GetComponent<Image>().color = Color.red;
-                break;
-            case 100:
-                Emotionbar.fillRect.GetComponent<Image>().color = Color.yellow;
-                break;
+            Emotionbar.fillRect.GetComponent<Image>().color = Color.yellow;
         }
+        else if (EmotionStatus <= 60 && EmotionStatus >40)
+        {
+            Emotionbar.fillRect.GetComponent<Image>().color = Color.red;
+        }
+        else if (EmotionStatus <= 80 && EmotionStatus > 60)
+        {
+            Emotionbar.fillRect.GetComponent<Image>().color = Color.blue;
+        }
+        else if (EmotionStatus <= 40 && EmotionStatus > 80)
+        {
+            Emotionbar.fillRect.GetComponent<Image>().color = Color.gray;
+        }      
+
     }
 }
 
