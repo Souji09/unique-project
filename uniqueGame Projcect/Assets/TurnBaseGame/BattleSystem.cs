@@ -96,7 +96,7 @@ public class BattleSystem : MonoBehaviour
     }
     public IEnumerator Playerheal()
     {
-        PlayerUnit.heal(20);
+        PlayerUnit.heal(PlayerUnit.Fait);
         PlayerHUD.SetHP(PlayerUnit.currentHP);
         DialogText.text = "You feal better now";
         yield return new WaitForSeconds(1f);        
