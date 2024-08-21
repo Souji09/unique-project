@@ -7,54 +7,66 @@ public class Dialogue : MonoBehaviour
 {
     public Text textComponent;
     public string[] lines;
-    public float textSpeeds;
+    public float textSpeeds = 0.05f;
 
     private int index;
+    private bool isTyping = false;
+    private bool cancelTyping = false;
+
     // Start is called before the first frame update
     void Start()
     {
         textComponent.text = string.Empty;
-        startDialogue();
+        StartDialogue();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButtonDown(0))
         {
-            if (textComponent.text == lines[index])
+            if (isTyping)
             {
-                NextLines();
+                cancelTyping = true;
             }
             else
             {
-                StopAllCoroutines();
-                textComponent.text = lines[index];
+                NextLine();
             }
         }
     }
 
-    void startDialogue()
+    void StartDialogue()
     {
         index = 0;
         StartCoroutine(TypeLine());
-
     }
 
     IEnumerator TypeLine()
     {
+        isTyping = true;
+        textComponent.text = string.Empty;
+
         foreach (char c in lines[index].ToCharArray())
         {
+            if (cancelTyping)
+            {
+                textComponent.text = lines[index];
+                cancelTyping = false;
+                break;
+            }
             textComponent.text += c;
             yield return new WaitForSeconds(textSpeeds);
         }
+
+        isTyping = false;
     }
-    void NextLines()
+
+    void NextLine()
     {
         if (index < lines.Length - 1)
         {
             index++;
-            textComponent.text = string.Empty;
             StartCoroutine(TypeLine());
         }
         else
